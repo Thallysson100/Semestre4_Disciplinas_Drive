@@ -1,0 +1,45 @@
+library(xtable)
+
+# Seu vetor de dados
+fihos <- c(
+  5, 1, 5, 3, 1, 2, 2, 1, 1, 0,
+  4, 2, 0, 4, 4, 4, 4, 3, 3, 2,
+  1, 1, 3, 2, 3, 1, 2, 3, 4, 3,
+  4, 0, 2, 0, 5, 2, 3, 4, 3, 4,
+  0, 0, 4, 3, 2, 2, 4, 3, 4, 3
+)
+
+# Frequências
+Fi <- table(fihos)
+Fr <- prop.table(Fi)
+Fp <- 100 * Fr
+
+# Monta data.frame com nomes amigáveis
+tab <- data.frame(
+  "Nº de filhos" = as.numeric(names(Fi)),
+  "Frequência (Fi)" = as.vector(Fi),
+  "Frequência relativa (Fr)" = round(as.vector(Fr), 2),
+  "Frequência percentual (Fp%)" = round(as.vector(Fp), 1)
+)
+
+# Linha TOTAL
+tab <- rbind(
+  tab,
+  data.frame(
+    "Nº de filhos" = "TOTAL",
+    "Frequência (Fi)" = sum(Fi),
+    "Frequência relativa (Fr)" = 1,
+    "Frequência percentual (Fp%)" = 100
+  )
+)
+
+# Exporta para LaTeX já formatado
+print(
+  xtable(tab,
+         caption = "Frequências do número de filhos em famílias do bairro Pinheirinho",
+         label = "tab:freq-fihos",
+         align = c("l","c","c","c","c")),
+  include.rownames = FALSE,
+  booktabs = TRUE
+)
+

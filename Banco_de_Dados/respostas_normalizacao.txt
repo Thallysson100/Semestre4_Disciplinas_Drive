@@ -1,0 +1,105 @@
+Liste todas as dependências funcionais satisfeitas pela relação da figura:
+
+R:
+A → B, C → B e {A, C} → B.
+------------------------------------------------------------------------------------------------------
+
+Considere a seguinte relação:
+	
+VENDA_CARRO (Num_carro, Data_venda, Num_vendedor, Comissão_porc, Desconto_tempo)
+
+Suponha que um carro possa ser vendido por vários vendedores. Dependências adicionais são:
+
+    Data_venda -> Desconto_tempo
+	Num_vendedor -> Comissão_porc
+
+Essa relação está na 1FN, 2FN, 3FN? Por quê? Caso não esteja na 3FN, aplique o algoritmo de decomposição para a 3FN e mostre as relações resultantes. 
+
+R:
+Está em 1FN, pois cada campo têm um valor único
+Não está em 2FN, pois a chave candidata dessa relação é (Num_carro, Num_vendedor), e Num_vendedor -> Comissão_porc,
+sendo uma dependência que não envolve a chave toda.
+Não está em 3FN, pois a dependência Data_venda -> Desconto_tempo envolve atributos não-chaves.
+
+Normalização:
+VENDA (Num_carro, Num_vendedor, Data_venda)
+VENDEDOR (Num_vendedor, Comissão_porc)
+DATA_VENDA (Data_venda, Desconto_tempo)
+----------------------------------------------------------------------------------------
+Nos exercícios seguintes, normalize as relações de forma que todas as relações resultantes estejam na forma normal mais restrita.
+
+Considere a 1FN, a 2FN e a 3FN.
+Para cada FN:
+Se necessário, identifique quais as dependências funcionais que se aplicam sobre R;
+Identifique e justifique se R encontra-se ou não na forma normal em questão; e
+Caso R sendo analisada não se encontre na forma normal em questão, normalize-a, especificando as relações originadas.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1)vendedor ( nro_vend, nome_vend, {clientetel (nro_cli, nome_cli)} )
+As seguintes dependências funcionais devem
+ser garantidas na normalização:
+  nro_vend->nome_vend
+  nro_cli->nome_cli
+Observação: considere que um vendedor
+pode atender diversos clientes, e um cliente
+pode ser atendido por diversos vendedores.
+
+R:
+Não está em 1FN, pois {clientetel (nro_cli, nome_cli)} é um atributo multivalorado. Normalização:
+vendedor (nro_vend, nome_vend, nro_cli, nome_cli)
+PK: (nro_vend, nro_cli)
+
+Não está em 2FN, pois nome_vend depende apenas de nro_vend, que é parte da chave composta;
+também nome_cli depende apenas de nro_cli, que é parte da chave composta.
+
+Normalização:
+VENDEDOR(nro_vend, nome_vend)
+PK: nro_vend
+CLIENTE(nro_cli, nome_cli)
+PK: nro_cli
+
+Tabela ATENDE (ou ATENDIMENTO, ou VEND_CLIENTE) é a tabela de relação muitos-para-muitos:
+ATENDE(nro_vend, nro_cli)
+PK: (nro_vend, nro_cli)
+FK: nro_vend nro_cli
+
+Todas as relações resultantes estão em 3FN, pois não existe dependências transitivas.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+2)aluno ( nro_aluno, cod_depto, nome_depto, sigla_depto, cod_orient, nome_orient, fone_orient, cod_curso )
+As seguintes dependências funcionais devem ser garantidas na normalização:
+cod_depto -> {nome_depto, sigla_depto};
+cod_oriente -> {nome_orient, fone_orient};
+nro_aluno -> {cod_depto, cod_orient, cod_curso};
+um aluno somente pode estar associado a um departamento;
+um aluno cursa um único curso;
+um aluno somente pode ser orientado por um único orientador.
+
+R:
+Está em 1FN, pois todos os atributos são atômicos.
+Está em 2FN, pois como a chave canditada é nro_aluno, não existe atributos que não sejam parcialmente
+dependentes dela.
+Não está em 3FN, pois existem dependências transitivas como: 
+nro_aluno -> cod_depto e cod_depto -> {nome_depto, sigla_depto}
+nro_aluno -> cod_orient e cod_orient -> {nome_orient, fone_orient}
+
+Normalização:
+ALUNO(nro_aluno, cod_depto, cod_orient, cod_curso)
+PK: nro_aluno
+
+DEPARTAMENTO(cod_depto, nome_depto, sigla_depto)
+PK: cod_depto
+
+ORIENTADOR(cod_orient, nome_orient, fone_orient)
+PK: cod_orient
+
+CURSO(cod_curso)
+PK: cod_curso
+
+
+
+
+
+

@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}  % Para caracteres acentuados
+\usepackage{booktabs}        % Para \toprule, \midrule, \bottomrule
+\usepackage{graphicx}        % Para inserir figuras
+\usepackage{float}           % Para usar [H] e fixar posição da figura
+\usepackage{lipsum}          % Para texto de exemplo (opcional)
+
+\begin{document}
+	
+	% --- Espaço para texto introdutório ---
+	
+	
+	% --- Tabela de Frequências discretas template---
+	\section*{Tabela de Frequências}
+	\begin{table}[H]
+		\centering
+		\caption{Frequências do número de filhos em famílias do bairro Pinheirinho} 
+		\begin{tabular}{cccc}            
+			\toprule
+			Nº.de.filhos & Fi. & .Fr. & Fp(\%) \\ 
+			\midrule
+			0 &   6 & 0.12 & 12.00 \\ 
+			1 &   7 & 0.14 & 14.00 \\ 
+			2 &  10 & 0.20 & 20.00 \\ 
+			3 &  12 & 0.24 & 24.00 \\ 
+			4 &  12 & 0.24 & 24.00 \\ 
+			5 &   3 & 0.06 & 6.00 \\ 
+			TOTAL &  50 & 1.00 & 100.00 \\ 
+			\bottomrule
+		\end{tabular}
+		\label{tab:freq-fihos}
+	\end{table}
+	
+	
+	% --- Tabela de Frequências contínua template---
+	\begin{table}[H]
+\centering
+\caption{Distribuição de Frequências por Intervalos}
+\begin{tabular}{cccccc}
+\toprule
+Intervalo (LI $\vdash$ LS) & Xi & Fi & Fr & Fp (\%) \\
+\midrule
+1.7 $\vdash$ 4.1   & 2.9  & 5  & 0.1389 & 13.89 \\
+4.1 $\vdash$ 6.5   & 5.3  & 13 & 0.3611 & 36.11 \\
+6.5 $\vdash$ 8.9   & 7.7  & 7  & 0.1944 & 19.44 \\
+8.9 $\vdash$ 11.3  & 10.1 & 5  & 0.1389 & 13.89 \\
+11.3 $\vdash$ 13.7 & 12.5 & 4  & 0.1111 & 11.11 \\
+13.7 $\vdash$ 16.1 & 14.9 & 2  & 0.0556 & 5.56 \\
+\midrule
+TOTAL & - & 36 & 1.00 & 100.00 \\
+\bottomrule
+\end{tabular}
+\label{tab:freq_intervalos_total}
+\end{table}
+
+	
+	
+	% --- Gráfico centralizado template---
+	\section*{Gráfico}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{/home/thallysson/Área de trabalho/Disciplinas/Estatistica/latex/graficos/grafico_atividade3_ex1.png} % substitua pelo arquivo do seu gráfico
+		\caption{Gráfico do número de filhos por família}
+		\label{fig:grafico_filhos}
+	\end{figure}
+	
+	% --- Espaço para análise ou comentários ---
+	\section*{Análise}
+	ab kjh dkj hjwh fji hwjf jwfw efjh eefu3 huir hjehfj eh fjhfjh djf hdwjhfj riuyeiurhjwe hfwek fhi ueyriu 2dgjkwqd wqdh wqjd eyurtwg dhgtedy wqtehwqjdbw qxcqswdud thiago é gay 
+	
+	
+\end{document}
+

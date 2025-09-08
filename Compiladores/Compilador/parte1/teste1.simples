@@ -1,0 +1,7 @@
+programa teste
+    inteiro a
+inicio
+    leia a
+    a <- a * 10
+    escreva a
+fimprograma

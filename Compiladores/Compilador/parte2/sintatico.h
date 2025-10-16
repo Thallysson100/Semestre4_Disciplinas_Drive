@@ -74,7 +74,7 @@ extern int yydebug;
     T_MENOS = 275,                 /* T_MENOS  */
     T_MAIOR = 276,                 /* T_MAIOR  */
     T_MENOR = 277,                 /* T_MENOR  */
-    T_iGUAL = 278,                 /* T_iGUAL  */
+    T_IGUAL = 278,                 /* T_IGUAL  */
     T_E = 279,                     /* T_E  */
     T_OU = 280,                    /* T_OU  */
     T_V = 281,                     /* T_V  */
@@ -84,8 +84,7 @@ extern int yydebug;
     T_ABRE = 285,                  /* T_ABRE  */
     T_FECHA = 286,                 /* T_FECHA  */
     T_LOGICO = 287,                /* T_LOGICO  */
-    T_INTEIRO = 288,               /* T_INTEIRO  */
-    T_IGUAL = 289                  /* T_IGUAL  */
+    T_INTEIRO = 288                /* T_INTEIRO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

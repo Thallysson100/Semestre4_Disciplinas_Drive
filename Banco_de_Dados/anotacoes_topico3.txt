@@ -1,0 +1,34 @@
+Casos de Uso e Benefícios
+- Redes sociais, detecção de fraudes, recomendação e grafos de conhecimento.
+- Melhor desempenho em dados conectados.
+- Modelagem intuitiva e expressiva.
+- Suporte a algoritmos de análise de grafos.
+
+
+Anotações sobre o tópico 3
+->Principais vantagens:
+    -Melhor desempenho em dados conectados: 
+        Em banco de dados relacionais, consultas que exigem 
+        navegação entre múltiplas relações são lentas, ao contrário do Neo4j
+    -Modelagem intuitiva e expressiva:
+        Grafos permitem uma representação de domínios complexos de forma mais clara e intuitiva
+    -Suporte a algoritmos de Análise de Grafos:
+       Os algoritmos permitem a extração de insights quantitativos da topologia e 
+       extrutura da rede, indo além de simples consultas.
+        
+    
+->Casos de uso:
+    -Detecção de fraudes
+        Algoritmos de deteção de comunidades ajudam 
+         na identificação de redes complexas, muitas vezes relacionadas a fraudes.
+
+    -Recomendação
+        Grafos podem modelar de forma mais rica um usuário,
+         assim possibilitando recomendações mais direcionadas
+
+    -Redes Sociais
+        Consultas de navegação mais eficientes, muito comuns em redes sociais
+
+    -Grafos de conhecimento
+        Permite uma maior flexibilidade para organizar e conectar informações de diversas fontes.
+

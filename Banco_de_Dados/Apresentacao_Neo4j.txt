@@ -1,0 +1,38 @@
+
+# Apresentação: Introdução ao Neo4j
+
+## 1. Introdução ao Neo4j
+- Neo4j é um banco de dados orientado a grafos, criado pela Neo4j Inc.
+- Foca em conexões (nós e relacionamentos), diferente de bancos relacionais.
+- Armazena dados como grafos (nós, relacionamentos e propriedades).
+- Permite consultas mais naturais sobre conexões.
+
+## 2. Arquitetura e Modelo de Dados
+- Modelo: Labeled Property Graph.
+- Linguagem Cypher para consultas.
+- Transações ACID e flexibilidade de esquema.
+- Alta performance em consultas com múltiplos relacionamentos.
+
+## 3. Casos de Uso e Benefícios
+- Redes sociais, detecção de fraudes, recomendação e grafos de conhecimento.
+- Melhor desempenho em dados conectados.
+- Modelagem intuitiva e expressiva.
+- Suporte a algoritmos de análise de grafos.
+
+## 4. Limitações e Pontos de Atenção
+- Curva de aprendizado em modelagem.
+- Planejamento necessário para cargas intensas de escrita.
+- Nem todos os problemas se beneficiam de grafos.
+- Boas práticas: modelagem e prototipagem antes da adoção.
+
+## 5. Como Começar / Implantação
+- Instalação local, na nuvem (Neo4j Aura) ou em clusters.
+- Passos: modelagem → importação → consultas → visualização.
+- Ferramentas: Neo4j Browser, Bloom e drivers.
+- Recursos: Neo4j Graph Academy e documentação oficial.
+
+## Referências
+- Neo4j Documentation – https://neo4j.com/docs/getting-started/graph-database/
+- Graphable.ai – What is Neo4j Graph Database
+- Neo4j.com – Top Ten Reasons Why Neo4j Is the Best Graph Database
+- Medium – Bhavik Jikadara, "Neo4j Benefits, Use Cases, and Graph Database"

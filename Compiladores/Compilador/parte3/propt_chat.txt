@@ -1,0 +1,271 @@
+Considere o arquivo sintatico.y "%{
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+    extern char atomo[100];
+    int yylex(void); 
+    extern void msg(char *);
+    int yyerror(char *);
+    extern FILE *yyin, *yyout;
+%}
+
+%token T_PROGRAMA T_INICIO T_FIM T_IDENTIF T_LEIA T_ESCREVA
+%token T_ENQTO T_FACA T_FIMENQTO T_SE T_ENTAO T_SENAO T_FIMSE
+%token T_ATRIB T_VEZES T_DIV T_MAIS T_MENOS T_MAIOR T_MENOR T_IGUAL
+%token T_E T_OU T_V T_F T_NUMERO T_NAO T_ABRE T_FECHA
+%token T_LOGICO T_INTEIRO
+
+%start programa
+
+%left T_OU
+%left T_E
+%left T_IGUAL
+%left T_MAIOR T_MENOR
+%left T_MAIS T_MENOS
+%left T_VEZES T_DIV
+%right T_NAO
+
+%%
+programa
+    : cabecalho 
+        {fprintf(yyout,"\tINPP\n");}
+    variaveis 
+        {fprintf(yyout,"\tAMEM\tX\n");}
+    T_INICIO lista_comandos T_FIM
+        {
+            fprintf(yyout,"\tDMEM\tX\n");
+            fprintf(yyout,"\tFIMP\n");
+        }
+    ;
+
+cabecalho
+    : T_PROGRAMA T_IDENTIF
+    ;
+
+variaveis
+    : /* vazio */
+    | declaracao_variaveis
+    ;
+
+declaracao_variaveis
+    : declaracao_variavel declaracao_variaveis
+    | declaracao_variavel
+    ;
+
+declaracao_variavel
+    : tipo lista_variaveis
+    ;
+
+tipo
+    : T_LOGICO
+    | T_INTEIRO
+    ;
+
+lista_variaveis
+    : T_IDENTIF
+    | lista_variaveis T_IDENTIF
+    ;
+
+lista_comandos
+    : /* vazio */
+    | comando lista_comandos
+    ;
+
+comando
+    : leitura
+    | escrita
+    | repeticao
+    | selecao
+    | atribuicao
+    ;
+
+leitura 
+    : T_LEIA T_IDENTIF 
+        {
+            fprintf(yyout,"\tLEIA\n");
+            fprintf(yyout,"\tARZG\tX\n");
+        }
+    ;
+
+escrita 
+    : T_ESCREVA expressao 
+        {fprintf(yyout,"\tESCR\n");}
+    ;
+
+repeticao 
+    : T_ENQTO 
+        {fprintf(yyout,"Lx\tNADA\n");}    
+    expressao T_FACA 
+        {fprintf(yyout,"\tDVSF\tLy\n");}
+    lista_comandos T_FIMENQTO 
+        {
+            fprintf(yyout,"\tDSVS\tLx\n");
+            fprintf(yyout,"Ly\tNADA\n");
+        }
+    ;
+
+selecao 
+    : T_SE expressao T_ENTAO 
+        {fprintf(yyout,"\tDSVF\tLy\n");}
+    lista_comandos T_SENAO 
+        {
+            fprintf(yyout,"\tDSVS\tLy\n");
+            fprintf(yyout,"Ly\tNADA\n");
+        } 
+    lista_comandos T_FIMSE 
+        {fprintf(yyout,"Ly\tNADA\n");}
+    ;
+
+atribuicao 
+    : T_IDENTIF T_ATRIB expressao 
+        {fprintf(yyout,"\tARZG\tX\n");}
+    ;
+
+expressao
+    : expressao T_OU expressao
+        {fprintf(yyout,"\tDISJ\n");}
+    | expressao T_E expressao
+        {fprintf(yyout,"\tCONJ\n");}
+    | expressao T_IGUAL expressao
+        {fprintf(yyout,"\tCMIG\n");}
+    | expressao T_MAIOR expressao
+        {fprintf(yyout,"\tCMMA\n");}
+    | expressao T_MENOR expressao
+        {fprintf(yyout,"\tCMME\n");}
+    | expressao T_MAIS expressao
+        {fprintf(yyout,"\tSOMA\n");} 
+    | expressao T_MENOS expressao
+        {fprintf(yyout,"\tSUBT\n");}
+    | expressao T_VEZES expressao
+        {fprintf(yyout,"\tMULT\n");} 
+    | expressao T_DIV expressao
+        {fprintf(yyout,"\tDIVI\n");} 
+    | termo
+    ;
+
+termo
+    : T_IDENTIF
+        {fprintf(yyout,"\tCRVG\tX\n");}
+    | T_NUMERO
+        {fprintf(yyout,"\tCRCT\t%s\n", atomo);}
+    | T_V
+        {fprintf(yyout,"\tCRCT\t1\n");}
+    | T_F
+        {fprintf(yyout,"\tCRCT\t0\n");}
+    | T_NAO termo
+        {fprintf(yyout,"\tNEGA\t0\n");}
+    | T_ABRE expressao T_FECHA
+    ;
+
+%%
+int yyerror(char *s){
+    msg(s);
+}
+int main(int argc, char **argv){
+    char nameIn[30], nameOut[30], *p;
+    if (argc < 2) {
+        printf("Uso:\n\t%s <nome_programa>[.simples]\n\n", argv[0]);
+        exit(1);
+    }
+    p = strstr(argv[1], ".simples");
+    if (p) p = 0;
+    strcpy(nameIn, argv[1]);
+    strcpy(nameOut, argv[1]);
+    strcat(nameIn, ".simples");
+    strcat(nameOut, ".msv");
+    yyin = fopen(nameIn, "rt");
+    yyout = fopen(nameOut, "wt");
+
+    yyparse();
+    printf("Programa Ok!\n");
+    return 0;
+}
+
+" o arquivo lexico.l: "%{
+  #include "sintatico.h"
+  char atomo[100];
+  int nLin = 1;  /* variavel para contar as linhas */
+  void msg(char *);
+  
+%}
+
+
+identificador [a-zA-Z][a-zA-Z0-9]*
+numero        [0-9]+
+espaco        [ \t]+
+novalinha     [\n]
+
+%x coment
+
+%%
+
+programa                { return  T_PROGRAMA;}
+inicio                  { return  T_INICIO;}
+fimprograma             { return  T_FIM;}
+leia                    { return  T_LEIA;}
+escreva                 { return  T_ESCREVA;}
+se                      { return  T_SE;}
+entao                   { return  T_ENTAO;}
+senao                   { return  T_SENAO;}
+fimse                   { return  T_FIMSE;}
+enquanto                { return  T_ENQTO;}
+faca                    { return  T_FACA;}
+fimenquanto             { return  T_FIMENQTO;}
+
+"+"                      {return T_MAIS;}
+"-"                      {return T_MENOS;}
+"*"                      {return T_VEZES;}
+"div"                    {return T_DIV;}
+
+">"                      {return T_MAIOR;}
+"<"                      {return T_MENOR;}
+"="                      {return T_IGUAL;}
+
+"e"                      {return T_E;}
+"ou"                     {return T_OU;}
+"nao"                    {return T_NAO;}
+
+"<-"                     {return T_ATRIB;}
+
+"("                      {return T_ABRE;}
+")"                      {return T_FECHA;}
+
+"inteiro"                {return T_INTEIRO;}
+"logico"                 {return T_LOGICO;}
+
+"V"                      {return T_V;}
+"F"                      {return T_F;}
+
+"//".*                   /* nada */
+"/*"                     BEGIN(coment);
+<coment>"*/"             BEGIN(INITIAL);
+<coment>"./"             /* nada */
+<coment>"\n"             ++nLin;
+
+{identificador}         {
+                          strcpy (atomo, yytext);
+                          return T_IDENTIF;    
+                        }
+{numero}                {
+                          strcpy (atomo, yytext);
+                          return T_NUMERO;  
+                        }
+{espaco}                 /* nada */ 
+{novalinha}              ++nLin;
+.                        msg("ERRO LEXICO - simbolo desconhecido!");
+
+%%
+
+int yywrap (void) {return 1;}
+void msg(char *s){
+    fprintf(stderr, "Erro na linha %d: %s próximo de '%s'\n", nLin, s, yytext);
+    exit (10);
+}" e o arquivo do programa teste: "programa teste
+inteiro a
+inicio
+    leia a
+    enquanto a > 0 faca
+        escreva a
+        a <- a - 1
+    fimequanto
+fimprograma". A compilação está retornado o erro Erro na linha 9: syntax error próximo de 'fimprograma', porém o programa deve ser considerado que sua sintaxe está correta

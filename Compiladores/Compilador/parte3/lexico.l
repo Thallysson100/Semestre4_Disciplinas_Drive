@@ -2,7 +2,10 @@
   #include "sintatico.h"
   char atomo[100];
   int nLin = 1;  /* variavel para contar as linhas */
-  void msg(char *);
+  int yyerror(char *);
+
+
+
   void verifica_palavra_parecida(const char *);
   int distancia(const char *, const char *);
   /* lista de palavras reservadas da linguagem */
@@ -81,15 +84,23 @@ fimenquanto             { return  T_FIMENQTO;}
                         }
 {espaco}                 /* nada */ 
 {novalinha}              ++nLin;
-.                        msg("ERRO LEXICO - simbolo desconhecido!");
+.                        yyerror("ERRO LEXICO - simbolo desconhecido!");
 
 %%
 
 int yywrap (void) {return 1;}
-void msg(char *s){
+int yyerror(char *s){
     printf("\nErro na linha %d: %s próximo de %s\n\n", nLin, s, yytext);
     exit (10);
 }
+
+
+
+
+
+
+
+
 /* função para calcular a distância de Levenshtein */
 int distancia(const char *s1, const char *s2) {
     int len1 = strlen(s1), len2 = strlen(s2);
@@ -120,7 +131,7 @@ int distancia(const char *s1, const char *s2) {
 void verifica_palavra_parecida(const char *id) {
     for (int i = 0; i < num_reservadas; i++) {
         int d = distancia(id, reservadas[i]);
-        if (d > 0 && d <= 1 && (strlen(reservadas[i]) > 2 || strlen(id) > 2)) { /* 1 a 2 letras diferentes */
+        if (d > 0 && d <= 1 && (strlen(reservadas[i]) > 2 || strlen(id) > 1)) { /* 1 a 2 letras diferentes */
             fprintf(stderr, "Aviso: palavra '%s' parece com '%s' (linha %d)\n", id, reservadas[i], nLin);
             break;
         }

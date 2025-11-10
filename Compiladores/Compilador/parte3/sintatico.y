@@ -2,11 +2,18 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include "utils.c"
+
+    extern int yyerror(char *);
+
     extern char atomo[100];
     int yylex(void); 
-    extern void msg(char *);
-    int yyerror(char *);
+    
     extern FILE *yyin, *yyout;
+
+    int contaVar =0;
+    int tipo;
+    int rotulo = 0;
 %}
 
 %token T_PROGRAMA T_INICIO T_FIM T_IDENTIF T_LEIA T_ESCREVA
@@ -30,10 +37,14 @@ programa
     : cabecalho 
         {fprintf(yyout,"\tINPP\n");}
     variaveis 
-        {fprintf(yyout,"\tAMEM\tX\n");}
+        {
+            fprintf(yyout,"\tAMEM\t%d\n", contaVar);
+            empilha(contaVar);
+        }
     T_INICIO lista_comandos T_FIM
         {
-            fprintf(yyout,"\tDMEM\tX\n");
+            int conta = desempilha();
+            fprintf(yyout,"\tDMEM\t%d\n", conta);
             fprintf(yyout,"\tFIMP\n");
         }
     ;
@@ -58,12 +69,26 @@ declaracao_variavel
 
 tipo
     : T_LOGICO
+        {tipo = LOG;}
     | T_INTEIRO
+        {tipo = INT;}
     ;
 
 lista_variaveis
-    : T_IDENTIF
-    | lista_variaveis T_IDENTIF
+    : lista_variaveis T_IDENTIF
+        {
+            strcpy(elemTab.id, atomo);
+            elemTab.tip = tipo;
+            elemTab.end = contaVar++;
+            insereSimbolo(elemTab);
+        }
+    | T_IDENTIF
+        {
+            strcpy(elemTab.id, atomo);
+            elemTab.tip = tipo;
+            elemTab.end = contaVar++;
+            insereSimbolo(elemTab);
+        }
     ;
 
 lista_comandos
@@ -82,8 +107,9 @@ comando
 leitura 
     : T_LEIA T_IDENTIF 
         {
+            int i = buscaSimbolo(atomo);
             fprintf(yyout,"\tLEIA\n");
-            fprintf(yyout,"\tARZG\tX\n");
+            fprintf(yyout,"\tARZG\t%d\n", tabSimb[i].end);
         }
     ;
 
@@ -94,31 +120,55 @@ escrita
 
 repeticao 
     : T_ENQTO 
-        {fprintf(yyout,"Lx\tNADA\n");}    
+        {
+            fprintf(yyout,"L%d\tNADA\n", ++rotulo);
+            empilha(rotulo);
+        }    
     expressao T_FACA 
-        {fprintf(yyout,"\tDVSF\tLy\n");}
+        {
+            fprintf(yyout,"\tDSVF\tL%d\n", ++rotulo);
+            empilha(rotulo);
+        }
     lista_comandos T_FIMENQTO 
         {
-            fprintf(yyout,"\tDSVS\tLx\n");
-            fprintf(yyout,"Ly\tNADA\n");
-        }
+            int y = desempilha();
+            int x = desempilha();
+            fprintf(yyout,"\tDSVS\tL%d\n", x);
+            fprintf(yyout,"L%d\tNADA\n", y);
+        } 
     ;
 
 selecao 
     : T_SE expressao T_ENTAO 
-        {fprintf(yyout,"\tDSVF\tLy\n");}
+        {
+            fprintf(yyout,"\tDSVF\tL%d\n", ++rotulo);
+            empilha(rotulo);
+        }
     lista_comandos T_SENAO 
         {
-            fprintf(yyout,"\tDSVS\tLy\n");
-            fprintf(yyout,"Ly\tNADA\n");
+            int x = desempilha();
+            fprintf(yyout,"\tDSVS\tL%d\n", ++rotulo);
+            empilha(rotulo);
+            fprintf(yyout,"L%d\tNADA\n", x);
         } 
     lista_comandos T_FIMSE 
-        {fprintf(yyout,"Ly\tNADA\n");}
+        {
+            int y = desempilha();
+            fprintf(yyout,"L%d\tNADA\n", y);
+        }
     ;
 
 atribuicao 
-    : T_IDENTIF T_ATRIB expressao 
-        {fprintf(yyout,"\tARZG\tX\n");}
+    : T_IDENTIF 
+        {
+            int pos = buscaSimbolo(atomo);
+            empilha(pos);
+        }
+    T_ATRIB expressao 
+        {
+            int pos = desempilha();
+            fprintf(yyout,"\tARZG\t%d\n", tabSimb[pos].end);
+        }
     ;
 
 expressao
@@ -145,7 +195,10 @@ expressao
 
 termo
     : T_IDENTIF
-        {fprintf(yyout,"\tCRVG\tX\n");}
+        {
+            int i = buscaSimbolo(atomo);
+            fprintf(yyout,"\tCRVG\t%d\n", tabSimb[i].end);
+        }
     | T_NUMERO
         {fprintf(yyout,"\tCRCT\t%s\n", atomo);}
     | T_V
@@ -158,9 +211,7 @@ termo
     ;
 
 %%
-int yyerror(char *s){
-    msg(s);
-}
+
 int main(int argc, char **argv){
     char nameIn[30], nameOut[30], *p;
     if (argc < 2) {
@@ -172,7 +223,7 @@ int main(int argc, char **argv){
     strcpy(nameIn, argv[1]);
     strcpy(nameOut, argv[1]);
     strcat(nameIn, ".simples");
-    strcat(nameOut, ".msv");
+    strcat(nameOut, ".mvs");
     yyin = fopen(nameIn, "rt");
     yyout = fopen(nameOut, "wt");
 

@@ -1,0 +1,63 @@
+#define TAM_TAB 100
+
+extern int yyerror(char *msg);
+
+enum {
+    INT,
+    LOG
+};
+
+typedef struct {
+    char id[100];
+    int end;
+    int tip;
+}elemTabSimb;
+
+elemTabSimb tabSimb[TAM_TAB], elemTab;
+int topoTab = 0; //indica a última posição ocupada da tabSimb
+
+void insereSimbolo(elemTabSimb elem){
+    int i;
+    if (topoTab == TAM_TAB)
+        yyerror("Tabela de símbolos cheia!");
+
+    for (i = topoTab -1; strcmp(tabSimb[i].id, elem.id) && i >= 0; i--);
+
+    if (i != -1){
+        char msg[200];
+        sprintf(msg, "O identificador [%s] é duplicado", elem.id);
+        yyerror(msg);
+    }
+    tabSimb[topoTab++] = elem;
+}
+
+int buscaSimbolo (char *id) {
+    int i;
+    if (topoTab == 0) yyerror("Não existem identificadores cadastrados");
+
+    for (i = topoTab -1; strcmp(tabSimb[i].id, id) && i >= 0; i--);
+    
+    if (i == -1) {
+        char msg[200];
+        sprintf(msg, "O identificador [%s] não foi encontrado", id);
+        yyerror(msg);
+    }
+    return i; 
+}
+
+#define TAM_PIL 100
+
+int pilha[TAM_PIL];
+int topoPil = -1;
+
+void empilha(int val){
+    if (topoPil == TAM_PIL - 1)
+        yyerror("Pilha cheia!");
+    pilha[++topoPil] = val;
+}
+
+int desempilha(){
+    if (topoPil == -1)
+        yyerror("Pilha vazia!");
+    return pilha[topoPil--];
+}

@@ -1,0 +1,68 @@
+digraph {
+	node [shape=record , height = .1];
+	n0x60f7ac76d2f0 [label="programa|"]
+	n0x60f7ac76c6f0 [label="identificador|teste2"]
+	n0x60f7ac76cb90 [label="declaracao de variaveis|"]
+	n0x60f7ac76c780 [label="tipo|inteiro"]
+	n0x60f7ac76c7e0 [label="lista variaveis|"]
+	n0x60f7ac76c7b0 [label="identificador|n"]
+	n0x60f7ac76c8a0 [label="declaracao de variaveis|"]
+	n0x60f7ac76c810 [label="tipo|logico"]
+	n0x60f7ac76c870 [label="lista variaveis|"]
+	n0x60f7ac76c840 [label="identificador|l"]
+	n0x60f7ac76d2a0 [label="lista comandos|"]
+	n0x60f7ac76ce90 [label="atribuicao|"]
+	n0x60f7ac76cbc0 [label="identificador|l"]
+	n0x60f7ac76ce40 [label="ou|"]
+	n0x60f7ac76ccd0 [label="compara maior|"]
+	n0x60f7ac76cc30 [label="variavel|n"]
+	n0x60f7ac76cc60 [label="numero|0"]
+	n0x60f7ac76ce10 [label="e|"]
+	n0x60f7ac76cd70 [label="negacao (nao)|"]
+	n0x60f7ac76cd20 [label="variavel|l"]
+	n0x60f7ac76cda0 [label="booleano|F"]
+	n0x60f7ac76d250 [label="lista comandos|"]
+	n0x60f7ac76d200 [label="selecao|"]
+	n0x60f7ac76cee0 [label="variavel|l"]
+	n0x60f7ac76d070 [label="lista comandos|"]
+	n0x60f7ac76d040 [label="escrita|"]
+	n0x60f7ac76cff0 [label="compara menor|"]
+	n0x60f7ac76cf50 [label="variavel|n"]
+	n0x60f7ac76cf80 [label="numero|0"]
+	n0x60f7ac76d1d0 [label="lista comandos|"]
+	n0x60f7ac76d160 [label="escrita|"]
+	n0x60f7ac76d130 [label="negacao (nao)|"]
+	n0x60f7ac76d0c0 [label="variavel|l"]
+	n0x60f7ac76d2f0 -> n0x60f7ac76c6f0
+	n0x60f7ac76d2f0 -> n0x60f7ac76cb90
+	n0x60f7ac76cb90 -> n0x60f7ac76c780
+	n0x60f7ac76cb90 -> n0x60f7ac76c7e0
+	n0x60f7ac76c7e0 -> n0x60f7ac76c7b0
+	n0x60f7ac76cb90 -> n0x60f7ac76c8a0
+	n0x60f7ac76c8a0 -> n0x60f7ac76c810
+	n0x60f7ac76c8a0 -> n0x60f7ac76c870
+	n0x60f7ac76c870 -> n0x60f7ac76c840
+	n0x60f7ac76d2f0 -> n0x60f7ac76d2a0
+	n0x60f7ac76d2a0 -> n0x60f7ac76ce90
+	n0x60f7ac76ce90 -> n0x60f7ac76cbc0
+	n0x60f7ac76ce90 -> n0x60f7ac76ce40
+	n0x60f7ac76ce40 -> n0x60f7ac76ccd0
+	n0x60f7ac76ccd0 -> n0x60f7ac76cc30
+	n0x60f7ac76ccd0 -> n0x60f7ac76cc60
+	n0x60f7ac76ce40 -> n0x60f7ac76ce10
+	n0x60f7ac76ce10 -> n0x60f7ac76cd70
+	n0x60f7ac76cd70 -> n0x60f7ac76cd20
+	n0x60f7ac76ce10 -> n0x60f7ac76cda0
+	n0x60f7ac76d2a0 -> n0x60f7ac76d250
+	n0x60f7ac76d250 -> n0x60f7ac76d200
+	n0x60f7ac76d200 -> n0x60f7ac76cee0
+	n0x60f7ac76d200 -> n0x60f7ac76d070
+	n0x60f7ac76d070 -> n0x60f7ac76d040
+	n0x60f7ac76d040 -> n0x60f7ac76cff0
+	n0x60f7ac76cff0 -> n0x60f7ac76cf50
+	n0x60f7ac76cff0 -> n0x60f7ac76cf80
+	n0x60f7ac76d200 -> n0x60f7ac76d1d0
+	n0x60f7ac76d1d0 -> n0x60f7ac76d160
+	n0x60f7ac76d160 -> n0x60f7ac76d130
+	n0x60f7ac76d130 -> n0x60f7ac76d0c0
+}

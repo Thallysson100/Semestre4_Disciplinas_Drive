@@ -1,4 +1,4 @@
-Grammar
+Gramática
 
     0 $accept: calculo $end
 
@@ -13,7 +13,7 @@ Grammar
     8     | T_NUM
 
 
-Terminals, with rules where they appear
+Terminais, com as regras onde eles aparecem
 
     $end (0) 0
     error (256)
@@ -27,64 +27,64 @@ Terminals, with rules where they appear
     T_NUM (265) 8
 
 
-Nonterminals, with rules where they appear
+Não terminais com as regras onde eles aparecem
 
     $accept (11)
-        on left: 0
+        à esquerda: 0
     calculo (12)
-        on left: 1 2
-        on right: 0 1
+        à esquerda: 1 2
+        à direita: 0 1
     expr (13)
-        on left: 3 4 5 6 7 8
-        on right: 1 3 4 5 6 7
+        à esquerda: 3 4 5 6 7 8
+        à direita: 1 3 4 5 6 7
 
 
-State 0
+Estado 0
 
     0 $accept: • calculo $end
 
-    $default  reduce using rule 2 (calculo)
+    $padrão  reduzir usando a regra 2 (calculo)
 
-    calculo  go to state 1
+    calculo  ir ao estado 1
 
 
-State 1
+Estado 1
 
     0 $accept: calculo • $end
     1 calculo: calculo • expr T_ENTER
 
-    $end    shift, and go to state 2
-    T_ABRE  shift, and go to state 3
-    T_NUM   shift, and go to state 4
+    $end    deslocar, e ir ao estado 2
+    T_ABRE  deslocar, e ir ao estado 3
+    T_NUM   deslocar, e ir ao estado 4
 
-    expr  go to state 5
+    expr  ir ao estado 5
 
 
-State 2
+Estado 2
 
     0 $accept: calculo $end •
 
-    $default  accept
+    $padrão  aceitar
 
 
-State 3
+Estado 3
 
     7 expr: T_ABRE • expr T_FECHA
 
-    T_ABRE  shift, and go to state 3
-    T_NUM   shift, and go to state 4
+    T_ABRE  deslocar, e ir ao estado 3
+    T_NUM   deslocar, e ir ao estado 4
 
-    expr  go to state 6
+    expr  ir ao estado 6
 
 
-State 4
+Estado 4
 
     8 expr: T_NUM •
 
-    $default  reduce using rule 8 (expr)
+    $padrão  reduzir usando a regra 8 (expr)
 
 
-State 5
+Estado 5
 
     1 calculo: calculo expr • T_ENTER
     3 expr: expr • T_MAIS expr
@@ -92,14 +92,14 @@ State 5
     5     | expr • T_MULT expr
     6     | expr • T_DIV expr
 
-    T_ENTER  shift, and go to state 7
-    T_MAIS   shift, and go to state 8
-    T_MENOS  shift, and go to state 9
-    T_MULT   shift, and go to state 10
-    T_DIV    shift, and go to state 11
+    T_ENTER  deslocar, e ir ao estado 7
+    T_MAIS   deslocar, e ir ao estado 8
+    T_MENOS  deslocar, e ir ao estado 9
+    T_MULT   deslocar, e ir ao estado 10
+    T_DIV    deslocar, e ir ao estado 11
 
 
-State 6
+Estado 6
 
     3 expr: expr • T_MAIS expr
     4     | expr • T_MENOS expr
@@ -107,68 +107,68 @@ State 6
     6     | expr • T_DIV expr
     7     | T_ABRE expr • T_FECHA
 
-    T_MAIS   shift, and go to state 8
-    T_MENOS  shift, and go to state 9
-    T_MULT   shift, and go to state 10
-    T_DIV    shift, and go to state 11
-    T_FECHA  shift, and go to state 12
+    T_MAIS   deslocar, e ir ao estado 8
+    T_MENOS  deslocar, e ir ao estado 9
+    T_MULT   deslocar, e ir ao estado 10
+    T_DIV    deslocar, e ir ao estado 11
+    T_FECHA  deslocar, e ir ao estado 12
 
 
-State 7
+Estado 7
 
     1 calculo: calculo expr T_ENTER •
 
-    $default  reduce using rule 1 (calculo)
+    $padrão  reduzir usando a regra 1 (calculo)
 
 
-State 8
+Estado 8
 
     3 expr: expr T_MAIS • expr
 
-    T_ABRE  shift, and go to state 3
-    T_NUM   shift, and go to state 4
+    T_ABRE  deslocar, e ir ao estado 3
+    T_NUM   deslocar, e ir ao estado 4
 
-    expr  go to state 13
+    expr  ir ao estado 13
 
 
-State 9
+Estado 9
 
     4 expr: expr T_MENOS • expr
 
-    T_ABRE  shift, and go to state 3
-    T_NUM   shift, and go to state 4
+    T_ABRE  deslocar, e ir ao estado 3
+    T_NUM   deslocar, e ir ao estado 4
 
-    expr  go to state 14
+    expr  ir ao estado 14
 
 
-State 10
+Estado 10
 
     5 expr: expr T_MULT • expr
 
-    T_ABRE  shift, and go to state 3
-    T_NUM   shift, and go to state 4
+    T_ABRE  deslocar, e ir ao estado 3
+    T_NUM   deslocar, e ir ao estado 4
 
-    expr  go to state 15
+    expr  ir ao estado 15
 
 
-State 11
+Estado 11
 
     6 expr: expr T_DIV • expr
 
-    T_ABRE  shift, and go to state 3
-    T_NUM   shift, and go to state 4
+    T_ABRE  deslocar, e ir ao estado 3
+    T_NUM   deslocar, e ir ao estado 4
 
-    expr  go to state 16
+    expr  ir ao estado 16
 
 
-State 12
+Estado 12
 
     7 expr: T_ABRE expr T_FECHA •
 
-    $default  reduce using rule 7 (expr)
+    $padrão  reduzir usando a regra 7 (expr)
 
 
-State 13
+Estado 13
 
     3 expr: expr • T_MAIS expr
     3     | expr T_MAIS expr •
@@ -176,13 +176,13 @@ State 13
     5     | expr • T_MULT expr
     6     | expr • T_DIV expr
 
-    T_MULT  shift, and go to state 10
-    T_DIV   shift, and go to state 11
+    T_MULT  deslocar, e ir ao estado 10
+    T_DIV   deslocar, e ir ao estado 11
 
-    $default  reduce using rule 3 (expr)
+    $padrão  reduzir usando a regra 3 (expr)
 
 
-State 14
+Estado 14
 
     3 expr: expr • T_MAIS expr
     4     | expr • T_MENOS expr
@@ -190,13 +190,13 @@ State 14
     5     | expr • T_MULT expr
     6     | expr • T_DIV expr
 
-    T_MULT  shift, and go to state 10
-    T_DIV   shift, and go to state 11
+    T_MULT  deslocar, e ir ao estado 10
+    T_DIV   deslocar, e ir ao estado 11
 
-    $default  reduce using rule 4 (expr)
+    $padrão  reduzir usando a regra 4 (expr)
 
 
-State 15
+Estado 15
 
     3 expr: expr • T_MAIS expr
     4     | expr • T_MENOS expr
@@ -204,10 +204,10 @@ State 15
     5     | expr T_MULT expr •
     6     | expr • T_DIV expr
 
-    $default  reduce using rule 5 (expr)
+    $padrão  reduzir usando a regra 5 (expr)
 
 
-State 16
+Estado 16
 
     3 expr: expr • T_MAIS expr
     4     | expr • T_MENOS expr
@@ -215,4 +215,4 @@ State 16
     6     | expr • T_DIV expr
     6     | expr T_DIV expr •
 
-    $default  reduce using rule 6 (expr)
+    $padrão  reduzir usando a regra 6 (expr)

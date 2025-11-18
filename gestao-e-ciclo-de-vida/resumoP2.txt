@@ -1,0 +1,84 @@
+git log --oneline - Mostra histórico compacto de commits
+git commit -am "mensagem" - -a significa add
+git show HEAD
+git diff <branch1>..<branch2> - Compara diferenças entre duas branches
+git branch --merged - Mostra branches que foram mergeadas na branch atual
+git branch -m <nome-antigo> <nome-novo> - Renomeia uma branch
+git branch -d <branch1> só remove se os commits já foram mergeados
+git branch -D  <branch1> força remoção mesmo com commits não mergeados
+git branch -r lista branchs remotas
+MERGE FAST-FORWARD: git merge --ff-only <branch1>
+    Git simplesmente move o ponteiro da branch master para o mesmo commit da branch de origem
+    Não cria novo commit de merge
+    Histórico permanece linear
+MERGE RECURSIVE: git merge --no-ff <branch1>
+    Git identifica o ancestral comum mais recente
+    Cria um novo commit de merge que combina as alterações
+    Este commit tem dois pais (um de cada branch)
+git merge --abort
+git remote add origem https://link.git
+Efeitos do -u (set-upstream):
+    Após git push -u origem main:
+    Configura relação permanente entre branch local e remota
+    Próximos pushes podem ser apenas: git push
+git pull origem main -> git fetch origem 
+                        git merge origin/main
+
+
+JPA:
+@OneToOne(cascade={CascadeType.ALL}) CascadeType.PERSIST
+@JoinColumn(name="ADDR_ID") //renomeia a coluna da chave estrangeira
+@OneToOne(mappedBy = "atributo_do_dono_que_referencia_a_endidade") //bidirecionais
+@OneToMany(cascade = CascadeType.ALL)
+@JoinTable(name="CUSTOMER_PHONE",
+                       joinColumns = { @JoinColumn(name="CUSTOMER_ID") }, // a foreign key mapping to the primary key of the owning side of the relationship
+                       inverseJoinColumns = {@JoinColumn(name="PHONE_ID")}) // the attribute maps the nonowning side.
+}
+private Collection phoneNumbers = new ArrayList<>();
+
+@ManyToOne   // MUITOS itens pertencem a UM pedido, no banco, cria uma coluna com a chave do dono no filho
+@OneToMany(mappedBy = "cruise") //na classe que não é o dono, mappedBy significa o atributo em que o dono a referencia
+@JoinColumn(name = "pedido_id")
+@Entity
+@Table(name="PERSON_HIERARCHY")
+                                                     //tem seus atributos e os atributos do pai        //tem uma chave estrangeira do pai
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // strategy = InheritanceType.TABLE_PER_CLASS,  @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("Person")  // Optional 
+public List findByName(String firstName, String lastName) {
+        String queryString = "SELECT c FROM Customer c WHERE c.firstName = :firstName AND c.lastName = :lastName";
+        Query query = this.getEntityManager().createQuery(queryString);
+        query.setParameter("firstName", firstName);
+        query.setParameter("lastName", lastName);
+        return query.getResultList();
+   }
+PROTOTIPAGEM:
+Diferença entre os Artefatos (com a ressalva de que, na prática, o termo "protótipo" é frequentemente usado para todos):
+    Rascunho (Sketch): Representação inicial e de baixa fidelidade (ex.: desenho à mão). Usado nas fases iniciais para explorar conceitos.
+    Wireframe: Também de baixa fidelidade, geralmente em preto e branco, focado na estrutura e no layout. Pode ter interações mínimas.
+    Mockup: Protótipo de média/alta fidelidade visual, muito próximo do produto final na aparência, mas com interatividade limitada (ex.: fluxo entre telas).
+    Protótipo (Alta Fidelidade): Simula a interação e a usabilidade do produto final, com alto nível de detalhe e funcionalidade. É interativo.
+Por que Prototipar?
+    Reduzir Custos e Prazos, Testar Conceitos de Design, Refinar a Usabilidade, Comunicar o Design
+Testes de Protótipos:
+    Objetivo: Verificar se o design atende às expectativas dos usuários.
+    Sessões: Devem ser frequentes, iterativas e ter um objetivo claro definido previamente.
+    Formato: Podem ser presenciais ou remotas.
+    Facilitador: É a pessoa que conduz a sessão. Deve ser neutro, fazer perguntas sem viés e ter habilidade para extrair feedback útil.
+    Exemplos de Perguntas: Variam conforme a fidelidade. De questões abertas ("O que você acha desta ideia?") para baixa fidelidade, a questões específicas ("Você consegue
+         encontrar um quarto e fazer uma reserva?") para alta fidelidade.
+Três Modelos de Processo de Design Famosos:
+    Design Council (Double Diamond):
+        Dividido em quatro fases: Descoberta (entender o problema), Definição (sintetizar e definir o problema), Desenvolvimento (criar e iterar soluções) e Entrega
+            (entregar a solução final).
+        Enfatiza momentos de pensamento divergente (explorar ideias) e convergente (focar em soluções).
+    IDEO.org:
+        Focado em soluções de impacto social e para populações menos favorecidas.
+        Fases: Inspiração (observar e entender os usuários), Ideação (gerar e refinar conceitos) e Implementação (colocar a solução em prática).
+    Stanford d.School:
+        Um dos modelos mais conhecidos que popularizou o Design Thinking.
+        Fases: Simpatizar (imersão no problema), Definir (sintetizar o problema central), Idear (brainstorming de soluções), Prototipar (criar representações tangíveis) e
+            Testar (validar com os usuários).
+    
+        
+    

@@ -1,9 +1,12 @@
 programa teste
 inteiro a b
+logico c
 inicio
     leia a
     enquanto a > 0 faca
+        c <- (a<0)
         escreva a
+        escreva c
         a <- a - 1
     fimenquanto
 fimprograma

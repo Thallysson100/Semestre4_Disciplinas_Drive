@@ -1,0 +1,1085 @@
+Gramática
+
+    0 $accept: programa $end
+
+    1 programa: cabecalho variaveis T_INICIO lista_comandos T_FIM
+
+    2 cabecalho: T_PROGRAMA T_IDENTIF
+
+    3 variaveis: ε
+    4          | declaracao_variaveis
+
+    5 declaracao_variaveis: tipo lista_variaveis declaracao_variaveis
+    6                     | tipo lista_variaveis
+
+    7 tipo: T_LOGICO
+    8     | T_INTEIRO
+
+    9 lista_variaveis: T_IDENTIF
+   10                | T_IDENTIF lista_variaveis
+
+   11 lista_comandos: ε
+   12               | comando lista_comandos
+
+   13 comando: leitura
+   14        | escrita
+   15        | repeticao
+   16        | selecao
+   17        | atribuicao
+
+   18 leitura: T_LEIA T_IDENTIF
+
+   19 escrita: T_ESCREVA expressao
+
+   20 repeticao: T_ENQTO expressao T_FACA lista_comandos T_FIMENQTO
+
+   21 selecao: T_SE expressao T_ENTAO lista_comandos T_SENAO lista_comandos T_FIMSE
+
+   22 atribuicao: T_IDENTIF T_ATRIB expressao
+
+   23 expressao: expressao T_OU expressao
+   24          | expressao T_E expressao
+   25          | expressao T_IGUAL expressao
+   26          | expressao T_MAIOR expressao
+   27          | expressao T_MENOR expressao
+   28          | expressao T_MAIS expressao
+   29          | expressao T_MENOS expressao
+   30          | expressao T_VEZES expressao
+   31          | expressao T_DIV expressao
+   32          | T_NAO expressao
+   33          | termo
+
+   34 termo: T_IDENTIF
+   35      | T_NUMERO
+   36      | T_V
+   37      | T_F
+   38      | T_ABRE expressao T_FECHA
+
+
+Terminais, com as regras onde eles aparecem
+
+    $end (0) 0
+    error (256)
+    T_PROGRAMA (258) 2
+    T_INICIO (259) 1
+    T_FIM (260) 1
+    T_IDENTIF (261) 2 9 10 18 22 34
+    T_LEIA (262) 18
+    T_ESCREVA (263) 19
+    T_ENQTO (264) 20
+    T_FACA (265) 20
+    T_FIMENQTO (266) 20
+    T_SE (267) 21
+    T_ENTAO (268) 21
+    T_SENAO (269) 21
+    T_FIMSE (270) 21
+    T_ATRIB (271) 22
+    T_VEZES (272) 30
+    T_DIV (273) 31
+    T_MAIS (274) 28
+    T_MENOS (275) 29
+    T_MAIOR (276) 26
+    T_MENOR (277) 27
+    T_IGUAL (278) 25
+    T_E (279) 24
+    T_OU (280) 23
+    T_V (281) 36
+    T_F (282) 37
+    T_NUMERO (283) 35
+    T_NAO (284) 32
+    T_ABRE (285) 38
+    T_FECHA (286) 38
+    T_LOGICO (287) 7
+    T_INTEIRO (288) 8
+
+
+Não terminais com as regras onde eles aparecem
+
+    $accept (34)
+        à esquerda: 0
+    programa (35)
+        à esquerda: 1
+        à direita: 0
+    cabecalho (36)
+        à esquerda: 2
+        à direita: 1
+    variaveis (37)
+        à esquerda: 3 4
+        à direita: 1
+    declaracao_variaveis (38)
+        à esquerda: 5 6
+        à direita: 4 5
+    tipo (39)
+        à esquerda: 7 8
+        à direita: 5 6
+    lista_variaveis (40)
+        à esquerda: 9 10
+        à direita: 5 6 10
+    lista_comandos (41)
+        à esquerda: 11 12
+        à direita: 1 12 20 21
+    comando (42)
+        à esquerda: 13 14 15 16 17
+        à direita: 12
+    leitura (43)
+        à esquerda: 18
+        à direita: 13
+    escrita (44)
+        à esquerda: 19
+        à direita: 14
+    repeticao (45)
+        à esquerda: 20
+        à direita: 15
+    selecao (46)
+        à esquerda: 21
+        à direita: 16
+    atribuicao (47)
+        à esquerda: 22
+        à direita: 17
+    expressao (48)
+        à esquerda: 23 24 25 26 27 28 29 30 31 32 33
+        à direita: 19 20 21 22 23 24 25 26 27 28 29 30 31 32 38
+    termo (49)
+        à esquerda: 34 35 36 37 38
+        à direita: 33
+
+
+Estado 0
+
+    0 $accept: • programa $end
+
+    T_PROGRAMA  deslocar, e ir ao estado 1
+
+    programa   ir ao estado 2
+    cabecalho  ir ao estado 3
+
+
+Estado 1
+
+    2 cabecalho: T_PROGRAMA • T_IDENTIF
+
+    T_IDENTIF  deslocar, e ir ao estado 4
+
+
+Estado 2
+
+    0 $accept: programa • $end
+
+    $end  deslocar, e ir ao estado 5
+
+
+Estado 3
+
+    1 programa: cabecalho • variaveis T_INICIO lista_comandos T_FIM
+
+    T_LOGICO   deslocar, e ir ao estado 6
+    T_INTEIRO  deslocar, e ir ao estado 7
+
+    $padrão  reduzir usando a regra 3 (variaveis)
+
+    variaveis             ir ao estado 8
+    declaracao_variaveis  ir ao estado 9
+    tipo                  ir ao estado 10
+
+
+Estado 4
+
+    2 cabecalho: T_PROGRAMA T_IDENTIF •
+
+    $padrão  reduzir usando a regra 2 (cabecalho)
+
+
+Estado 5
+
+    0 $accept: programa $end •
+
+    $padrão  aceitar
+
+
+Estado 6
+
+    7 tipo: T_LOGICO •
+
+    $padrão  reduzir usando a regra 7 (tipo)
+
+
+Estado 7
+
+    8 tipo: T_INTEIRO •
+
+    $padrão  reduzir usando a regra 8 (tipo)
+
+
+Estado 8
+
+    1 programa: cabecalho variaveis • T_INICIO lista_comandos T_FIM
+
+    T_INICIO  deslocar, e ir ao estado 11
+
+
+Estado 9
+
+    4 variaveis: declaracao_variaveis •
+
+    $padrão  reduzir usando a regra 4 (variaveis)
+
+
+Estado 10
+
+    5 declaracao_variaveis: tipo • lista_variaveis declaracao_variaveis
+    6                     | tipo • lista_variaveis
+
+    T_IDENTIF  deslocar, e ir ao estado 12
+
+    lista_variaveis  ir ao estado 13
+
+
+Estado 11
+
+    1 programa: cabecalho variaveis T_INICIO • lista_comandos T_FIM
+
+    T_IDENTIF  deslocar, e ir ao estado 14
+    T_LEIA     deslocar, e ir ao estado 15
+    T_ESCREVA  deslocar, e ir ao estado 16
+    T_ENQTO    deslocar, e ir ao estado 17
+    T_SE       deslocar, e ir ao estado 18
+
+    $padrão  reduzir usando a regra 11 (lista_comandos)
+
+    lista_comandos  ir ao estado 19
+    comando         ir ao estado 20
+    leitura         ir ao estado 21
+    escrita         ir ao estado 22
+    repeticao       ir ao estado 23
+    selecao         ir ao estado 24
+    atribuicao      ir ao estado 25
+
+
+Estado 12
+
+    9 lista_variaveis: T_IDENTIF •
+   10                | T_IDENTIF • lista_variaveis
+
+    T_IDENTIF  deslocar, e ir ao estado 12
+
+    $padrão  reduzir usando a regra 9 (lista_variaveis)
+
+    lista_variaveis  ir ao estado 26
+
+
+Estado 13
+
+    5 declaracao_variaveis: tipo lista_variaveis • declaracao_variaveis
+    6                     | tipo lista_variaveis •
+
+    T_LOGICO   deslocar, e ir ao estado 6
+    T_INTEIRO  deslocar, e ir ao estado 7
+
+    $padrão  reduzir usando a regra 6 (declaracao_variaveis)
+
+    declaracao_variaveis  ir ao estado 27
+    tipo                  ir ao estado 10
+
+
+Estado 14
+
+   22 atribuicao: T_IDENTIF • T_ATRIB expressao
+
+    T_ATRIB  deslocar, e ir ao estado 28
+
+
+Estado 15
+
+   18 leitura: T_LEIA • T_IDENTIF
+
+    T_IDENTIF  deslocar, e ir ao estado 29
+
+
+Estado 16
+
+   19 escrita: T_ESCREVA • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 36
+    termo      ir ao estado 37
+
+
+Estado 17
+
+   20 repeticao: T_ENQTO • expressao T_FACA lista_comandos T_FIMENQTO
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 38
+    termo      ir ao estado 37
+
+
+Estado 18
+
+   21 selecao: T_SE • expressao T_ENTAO lista_comandos T_SENAO lista_comandos T_FIMSE
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 39
+    termo      ir ao estado 37
+
+
+Estado 19
+
+    1 programa: cabecalho variaveis T_INICIO lista_comandos • T_FIM
+
+    T_FIM  deslocar, e ir ao estado 40
+
+
+Estado 20
+
+   12 lista_comandos: comando • lista_comandos
+
+    T_IDENTIF  deslocar, e ir ao estado 14
+    T_LEIA     deslocar, e ir ao estado 15
+    T_ESCREVA  deslocar, e ir ao estado 16
+    T_ENQTO    deslocar, e ir ao estado 17
+    T_SE       deslocar, e ir ao estado 18
+
+    $padrão  reduzir usando a regra 11 (lista_comandos)
+
+    lista_comandos  ir ao estado 41
+    comando         ir ao estado 20
+    leitura         ir ao estado 21
+    escrita         ir ao estado 22
+    repeticao       ir ao estado 23
+    selecao         ir ao estado 24
+    atribuicao      ir ao estado 25
+
+
+Estado 21
+
+   13 comando: leitura •
+
+    $padrão  reduzir usando a regra 13 (comando)
+
+
+Estado 22
+
+   14 comando: escrita •
+
+    $padrão  reduzir usando a regra 14 (comando)
+
+
+Estado 23
+
+   15 comando: repeticao •
+
+    $padrão  reduzir usando a regra 15 (comando)
+
+
+Estado 24
+
+   16 comando: selecao •
+
+    $padrão  reduzir usando a regra 16 (comando)
+
+
+Estado 25
+
+   17 comando: atribuicao •
+
+    $padrão  reduzir usando a regra 17 (comando)
+
+
+Estado 26
+
+   10 lista_variaveis: T_IDENTIF lista_variaveis •
+
+    $padrão  reduzir usando a regra 10 (lista_variaveis)
+
+
+Estado 27
+
+    5 declaracao_variaveis: tipo lista_variaveis declaracao_variaveis •
+
+    $padrão  reduzir usando a regra 5 (declaracao_variaveis)
+
+
+Estado 28
+
+   22 atribuicao: T_IDENTIF T_ATRIB • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 42
+    termo      ir ao estado 37
+
+
+Estado 29
+
+   18 leitura: T_LEIA T_IDENTIF •
+
+    $padrão  reduzir usando a regra 18 (leitura)
+
+
+Estado 30
+
+   34 termo: T_IDENTIF •
+
+    $padrão  reduzir usando a regra 34 (termo)
+
+
+Estado 31
+
+   36 termo: T_V •
+
+    $padrão  reduzir usando a regra 36 (termo)
+
+
+Estado 32
+
+   37 termo: T_F •
+
+    $padrão  reduzir usando a regra 37 (termo)
+
+
+Estado 33
+
+   35 termo: T_NUMERO •
+
+    $padrão  reduzir usando a regra 35 (termo)
+
+
+Estado 34
+
+   32 expressao: T_NAO • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 43
+    termo      ir ao estado 37
+
+
+Estado 35
+
+   38 termo: T_ABRE • expressao T_FECHA
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 44
+    termo      ir ao estado 37
+
+
+Estado 36
+
+   19 escrita: T_ESCREVA expressao •
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+    T_MAIOR  deslocar, e ir ao estado 49
+    T_MENOR  deslocar, e ir ao estado 50
+    T_IGUAL  deslocar, e ir ao estado 51
+    T_E      deslocar, e ir ao estado 52
+    T_OU     deslocar, e ir ao estado 53
+
+    $padrão  reduzir usando a regra 19 (escrita)
+
+
+Estado 37
+
+   33 expressao: termo •
+
+    $padrão  reduzir usando a regra 33 (expressao)
+
+
+Estado 38
+
+   20 repeticao: T_ENQTO expressao • T_FACA lista_comandos T_FIMENQTO
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_FACA   deslocar, e ir ao estado 54
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+    T_MAIOR  deslocar, e ir ao estado 49
+    T_MENOR  deslocar, e ir ao estado 50
+    T_IGUAL  deslocar, e ir ao estado 51
+    T_E      deslocar, e ir ao estado 52
+    T_OU     deslocar, e ir ao estado 53
+
+
+Estado 39
+
+   21 selecao: T_SE expressao • T_ENTAO lista_comandos T_SENAO lista_comandos T_FIMSE
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_ENTAO  deslocar, e ir ao estado 55
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+    T_MAIOR  deslocar, e ir ao estado 49
+    T_MENOR  deslocar, e ir ao estado 50
+    T_IGUAL  deslocar, e ir ao estado 51
+    T_E      deslocar, e ir ao estado 52
+    T_OU     deslocar, e ir ao estado 53
+
+
+Estado 40
+
+    1 programa: cabecalho variaveis T_INICIO lista_comandos T_FIM •
+
+    $padrão  reduzir usando a regra 1 (programa)
+
+
+Estado 41
+
+   12 lista_comandos: comando lista_comandos •
+
+    $padrão  reduzir usando a regra 12 (lista_comandos)
+
+
+Estado 42
+
+   22 atribuicao: T_IDENTIF T_ATRIB expressao •
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+    T_MAIOR  deslocar, e ir ao estado 49
+    T_MENOR  deslocar, e ir ao estado 50
+    T_IGUAL  deslocar, e ir ao estado 51
+    T_E      deslocar, e ir ao estado 52
+    T_OU     deslocar, e ir ao estado 53
+
+    $padrão  reduzir usando a regra 22 (atribuicao)
+
+
+Estado 43
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+   32          | T_NAO expressao •
+
+    $padrão  reduzir usando a regra 32 (expressao)
+
+
+Estado 44
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+   38 termo: T_ABRE expressao • T_FECHA
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+    T_MAIOR  deslocar, e ir ao estado 49
+    T_MENOR  deslocar, e ir ao estado 50
+    T_IGUAL  deslocar, e ir ao estado 51
+    T_E      deslocar, e ir ao estado 52
+    T_OU     deslocar, e ir ao estado 53
+    T_FECHA  deslocar, e ir ao estado 56
+
+
+Estado 45
+
+   30 expressao: expressao T_VEZES • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 57
+    termo      ir ao estado 37
+
+
+Estado 46
+
+   31 expressao: expressao T_DIV • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 58
+    termo      ir ao estado 37
+
+
+Estado 47
+
+   28 expressao: expressao T_MAIS • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 59
+    termo      ir ao estado 37
+
+
+Estado 48
+
+   29 expressao: expressao T_MENOS • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 60
+    termo      ir ao estado 37
+
+
+Estado 49
+
+   26 expressao: expressao T_MAIOR • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 61
+    termo      ir ao estado 37
+
+
+Estado 50
+
+   27 expressao: expressao T_MENOR • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 62
+    termo      ir ao estado 37
+
+
+Estado 51
+
+   25 expressao: expressao T_IGUAL • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 63
+    termo      ir ao estado 37
+
+
+Estado 52
+
+   24 expressao: expressao T_E • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 64
+    termo      ir ao estado 37
+
+
+Estado 53
+
+   23 expressao: expressao T_OU • expressao
+
+    T_IDENTIF  deslocar, e ir ao estado 30
+    T_V        deslocar, e ir ao estado 31
+    T_F        deslocar, e ir ao estado 32
+    T_NUMERO   deslocar, e ir ao estado 33
+    T_NAO      deslocar, e ir ao estado 34
+    T_ABRE     deslocar, e ir ao estado 35
+
+    expressao  ir ao estado 65
+    termo      ir ao estado 37
+
+
+Estado 54
+
+   20 repeticao: T_ENQTO expressao T_FACA • lista_comandos T_FIMENQTO
+
+    T_IDENTIF  deslocar, e ir ao estado 14
+    T_LEIA     deslocar, e ir ao estado 15
+    T_ESCREVA  deslocar, e ir ao estado 16
+    T_ENQTO    deslocar, e ir ao estado 17
+    T_SE       deslocar, e ir ao estado 18
+
+    $padrão  reduzir usando a regra 11 (lista_comandos)
+
+    lista_comandos  ir ao estado 66
+    comando         ir ao estado 20
+    leitura         ir ao estado 21
+    escrita         ir ao estado 22
+    repeticao       ir ao estado 23
+    selecao         ir ao estado 24
+    atribuicao      ir ao estado 25
+
+
+Estado 55
+
+   21 selecao: T_SE expressao T_ENTAO • lista_comandos T_SENAO lista_comandos T_FIMSE
+
+    T_IDENTIF  deslocar, e ir ao estado 14
+    T_LEIA     deslocar, e ir ao estado 15
+    T_ESCREVA  deslocar, e ir ao estado 16
+    T_ENQTO    deslocar, e ir ao estado 17
+    T_SE       deslocar, e ir ao estado 18
+
+    $padrão  reduzir usando a regra 11 (lista_comandos)
+
+    lista_comandos  ir ao estado 67
+    comando         ir ao estado 20
+    leitura         ir ao estado 21
+    escrita         ir ao estado 22
+    repeticao       ir ao estado 23
+    selecao         ir ao estado 24
+    atribuicao      ir ao estado 25
+
+
+Estado 56
+
+   38 termo: T_ABRE expressao T_FECHA •
+
+    $padrão  reduzir usando a regra 38 (termo)
+
+
+Estado 57
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   30          | expressao T_VEZES expressao •
+   31          | expressao • T_DIV expressao
+
+    $padrão  reduzir usando a regra 30 (expressao)
+
+
+Estado 58
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+   31          | expressao T_DIV expressao •
+
+    $padrão  reduzir usando a regra 31 (expressao)
+
+
+Estado 59
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   28          | expressao T_MAIS expressao •
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+
+    $padrão  reduzir usando a regra 28 (expressao)
+
+
+Estado 60
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   29          | expressao T_MENOS expressao •
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+
+    $padrão  reduzir usando a regra 29 (expressao)
+
+
+Estado 61
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   26          | expressao T_MAIOR expressao •
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+
+    $padrão  reduzir usando a regra 26 (expressao)
+
+
+Estado 62
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   27          | expressao T_MENOR expressao •
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+
+    $padrão  reduzir usando a regra 27 (expressao)
+
+
+Estado 63
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   25          | expressao T_IGUAL expressao •
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+    T_MAIOR  deslocar, e ir ao estado 49
+    T_MENOR  deslocar, e ir ao estado 50
+
+    $padrão  reduzir usando a regra 25 (expressao)
+
+
+Estado 64
+
+   23 expressao: expressao • T_OU expressao
+   24          | expressao • T_E expressao
+   24          | expressao T_E expressao •
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+    T_MAIOR  deslocar, e ir ao estado 49
+    T_MENOR  deslocar, e ir ao estado 50
+    T_IGUAL  deslocar, e ir ao estado 51
+
+    $padrão  reduzir usando a regra 24 (expressao)
+
+
+Estado 65
+
+   23 expressao: expressao • T_OU expressao
+   23          | expressao T_OU expressao •
+   24          | expressao • T_E expressao
+   25          | expressao • T_IGUAL expressao
+   26          | expressao • T_MAIOR expressao
+   27          | expressao • T_MENOR expressao
+   28          | expressao • T_MAIS expressao
+   29          | expressao • T_MENOS expressao
+   30          | expressao • T_VEZES expressao
+   31          | expressao • T_DIV expressao
+
+    T_VEZES  deslocar, e ir ao estado 45
+    T_DIV    deslocar, e ir ao estado 46
+    T_MAIS   deslocar, e ir ao estado 47
+    T_MENOS  deslocar, e ir ao estado 48
+    T_MAIOR  deslocar, e ir ao estado 49
+    T_MENOR  deslocar, e ir ao estado 50
+    T_IGUAL  deslocar, e ir ao estado 51
+    T_E      deslocar, e ir ao estado 52
+
+    $padrão  reduzir usando a regra 23 (expressao)
+
+
+Estado 66
+
+   20 repeticao: T_ENQTO expressao T_FACA lista_comandos • T_FIMENQTO
+
+    T_FIMENQTO  deslocar, e ir ao estado 68
+
+
+Estado 67
+
+   21 selecao: T_SE expressao T_ENTAO lista_comandos • T_SENAO lista_comandos T_FIMSE
+
+    T_SENAO  deslocar, e ir ao estado 69
+
+
+Estado 68
+
+   20 repeticao: T_ENQTO expressao T_FACA lista_comandos T_FIMENQTO •
+
+    $padrão  reduzir usando a regra 20 (repeticao)
+
+
+Estado 69
+
+   21 selecao: T_SE expressao T_ENTAO lista_comandos T_SENAO • lista_comandos T_FIMSE
+
+    T_IDENTIF  deslocar, e ir ao estado 14
+    T_LEIA     deslocar, e ir ao estado 15
+    T_ESCREVA  deslocar, e ir ao estado 16
+    T_ENQTO    deslocar, e ir ao estado 17
+    T_SE       deslocar, e ir ao estado 18
+
+    $padrão  reduzir usando a regra 11 (lista_comandos)
+
+    lista_comandos  ir ao estado 70
+    comando         ir ao estado 20
+    leitura         ir ao estado 21
+    escrita         ir ao estado 22
+    repeticao       ir ao estado 23
+    selecao         ir ao estado 24
+    atribuicao      ir ao estado 25
+
+
+Estado 70
+
+   21 selecao: T_SE expressao T_ENTAO lista_comandos T_SENAO lista_comandos • T_FIMSE
+
+    T_FIMSE  deslocar, e ir ao estado 71
+
+
+Estado 71
+
+   21 selecao: T_SE expressao T_ENTAO lista_comandos T_SENAO lista_comandos T_FIMSE •
+
+    $padrão  reduzir usando a regra 21 (selecao)

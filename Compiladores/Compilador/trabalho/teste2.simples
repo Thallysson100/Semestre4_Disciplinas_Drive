@@ -1,0 +1,10 @@
+programa teste2
+    inteiro n
+    logico l
+inicio
+    l <- n > 0 ou nao l e F
+    se l 
+        entao escreva n < 0
+        senao escreva nao l
+    fimse
+fimprograma

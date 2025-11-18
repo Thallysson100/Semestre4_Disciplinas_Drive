@@ -72,6 +72,6 @@ void geraDot(ptno raiz) {
     fprintf(fp, "}\n");
     fclose(fp);
     system("dot -Tpng tree.dot -o tree.png &");
-    system("eog tree.png &");
+    system("xdg-open tree.png &");
 }
 
